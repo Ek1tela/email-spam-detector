@@ -3,7 +3,7 @@ import "./globals.css";
 import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Spam Sentinel",
+  title: "EKiVance Technologies - AI-powered spam and malicious link detection",
   description: "AI-powered spam and malicious link detection",
 };
 
