@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  scans     Scan[]
+}
+
+model Scan {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailId    String
+  subject    String
+  sender     String
+  snippet    String
+  isSpam     Boolean  @default(false)
+  spamScore  Float    @default(0)
+  spamReason String?
+  hasMaliciousLinks Boolean @default(false)
+  links      Link[]
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Link {
+  id          String   @id @default(cuid())
+  scanId      String
+  scan        Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  url         String
+  isMalicious Boolean  @default(false)
+  threatTypes String?
+
+  @@index([scanId])
+}
+
+model LinkCache {
+  url         String   @id
+  isMalicious Boolean
+  threatTypes String?
+  checkedAt   DateTime @default(now())
+}
