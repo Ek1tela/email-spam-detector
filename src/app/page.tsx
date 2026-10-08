@@ -146,7 +146,7 @@ export default function Home() {
             </div>
           ) : (
             <a
-              href="https://www.ekivance.co.ke/"
+              href="https://email-spam-detector-fwtp.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-xs text-[var(--text-dim)] hover:text-white transition-colors"
@@ -446,7 +446,7 @@ export default function Home() {
           <p className="text-center sm:text-left">
             © {new Date().getFullYear()}{" "}
             <a
-              href="https://www.ekivance.co.ke/"
+              href="https://email-spam-detector-fwtp.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[var(--text-dim)] hover:text-white transition-colors"
@@ -469,7 +469,7 @@ export default function Home() {
               Quiz
             </Link>
             <a
-              href="https://www.ekivance.co.ke/"
+              href="https://email-spam-detector-fwtp.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"
@@ -588,7 +588,7 @@ function Landing({ onSignIn }: { onSignIn: () => void }) {
         <p className="fade-up fade-up-5 mt-14 text-[11px] text-[var(--text-muted)]">
           Built by{" "}
           <a
-            href="https://www.ekivance.co.ke/"
+            href="https://email-spam-detector-fwtp.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[var(--text-dim)] hover:text-white underline underline-offset-2 decoration-[var(--border-strong)] transition-colors"

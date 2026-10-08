@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "EkiVance Technology Innovation",
-      url: "https://www.ekivance.co.ke/",
+      url: "https://email-spam-detector-fwtp.vercel.app/",
     },
   ],
 };
