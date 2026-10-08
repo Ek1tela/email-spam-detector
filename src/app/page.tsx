@@ -107,7 +107,7 @@ export default function Home() {
                 <ShieldCheck size={14} className="text-gray-300" />
               </div>
               <span className="text-[13px] font-semibold tracking-tight">
-                EkiVance Technology Innovation
+                Francis' Spam Detector 
               </span>
               <span className="text-[11px] text-[var(--text-muted)] ml-1 hidden sm:inline">
                 v1.0
@@ -451,7 +451,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-[var(--text-dim)] hover:text-white transition-colors"
             >
-              EkiVance Technology Innovation
+              Francis' Spam Detector 
             </a>
             . All rights reserved.
           </p>
@@ -593,7 +593,7 @@ function Landing({ onSignIn }: { onSignIn: () => void }) {
             rel="noopener noreferrer"
             className="text-[var(--text-dim)] hover:text-white underline underline-offset-2 decoration-[var(--border-strong)] transition-colors"
           >
-            EkiVance Technology Innovation
+            Francis' Spam Detector 
           </a>{" "}
           · Next.js · Prisma · Gmail API · OpenAI
         </p>

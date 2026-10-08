@@ -1,17 +1,32 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/components/Providers";
+import Toaster from "@/components/Toaster";
 
 export const metadata: Metadata = {
-  title: "EKiVance Technologies - AI-powered spam and malicious link detection",
-  description: "AI-powered spam and malicious link detection",
+  title: "EkiVance Technology Innovation - Inbox Security",
+  description:
+    "AI-powered phishing and malicious link detection for your Gmail inbox.",
+  authors: [
+    {
+      name: "EkiVance Technology Innovation",
+      url: "https://www.ekivance.co.ke/",
+    },
+  ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className="bg-gray-950 text-gray-100 min-h-screen">
-        <Providers>{children}</Providers>
+      <body className="bg-[var(--bg)] text-[var(--text)] min-h-screen">
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );
