@@ -3,9 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { fetchRecentEmails } from "@/lib/gmail";
 import { classifySpam } from "@/lib/spam";
+import { classifyPhishing } from "@/lib/phishing/classify";
 import { checkLinks } from "@/lib/links";
 import { prisma } from "@/lib/prisma";
-import type { ScanResult } from "@/types";
 
 export const maxDuration = 60;
 
@@ -20,7 +20,14 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => ({}));
   const maxResults = Math.min(Math.max(body.maxResults || 5, 1), 20);
-  const query: string = body.query || "";
+  const studentMode = Boolean(body.studentMode);
+
+  let query: string = body.query || "";
+  if (studentMode) {
+    const studentQuery =
+      "(scholarship OR internship OR tuition OR university OR \"financial aid\" OR results OR transcript)";
+    query = query ? `(${query}) AND ${studentQuery}` : studentQuery;
+  }
 
   try {
     const emails = await fetchRecentEmails(accessToken, maxResults, query);
@@ -29,10 +36,18 @@ export async function POST(req: NextRequest) {
     const allLinkReports = await checkLinks(allLinks);
     const linkMap = new Map(allLinkReports.map((r) => [r.url, r]));
 
-    const results: ScanResult[] = [];
+    const results = [];
 
     for (const email of emails) {
       const spam = await classifySpam(email.subject, email.body, email.from);
+      const phishing = await classifyPhishing(
+        email.subject,
+        email.body,
+        email.from,
+        email.links,
+        spam
+      );
+
       const linkReports = email.links.map((u) => linkMap.get(u)!).filter(Boolean);
       const hasMalicious = linkReports.some((l) => l.isMalicious);
 
@@ -43,9 +58,9 @@ export async function POST(req: NextRequest) {
           subject: email.subject,
           sender: email.from,
           snippet: email.snippet,
-          isSpam: spam.isSpam,
-          spamScore: spam.score,
-          spamReason: spam.reason,
+          isSpam: phishing.isPhishing,
+          spamScore: phishing.score,
+          spamReason: phishing.signals.map((s) => s.label).join(", "),
           hasMaliciousLinks: hasMalicious,
           links: {
             create: linkReports.map((l) => ({
@@ -59,9 +74,11 @@ export async function POST(req: NextRequest) {
 
       results.push({
         email,
-        isSpam: spam.isSpam,
-        spamScore: spam.score,
-        spamReason: spam.reason,
+        isSpam: phishing.isPhishing,
+        spamScore: phishing.score,
+        spamReason: phishing.aiReason,
+        phishingSignals: phishing.signals,
+        isStudentTargeted: phishing.isStudentTargeted,
         linkReports,
       });
     }
