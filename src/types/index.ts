@@ -16,11 +16,20 @@ export interface LinkReport {
   cached?: boolean;
 }
 
+export interface PhishingSignal {
+  id: string;
+  label: string;
+  description: string;
+  weight: number;
+}
+
 export interface ScanResult {
   email: EmailMessage;
   spamScore: number;
   isSpam: boolean;
   spamReason?: string;
+  phishingSignals?: PhishingSignal[];
+  isStudentTargeted?: boolean;
   linkReports: LinkReport[];
 }
 
